@@ -34,7 +34,7 @@ border ('loginViewDescriptor', model:'CaptchaUsernamePasswordHandler',
           north {
             form (borderType:'SIMPLE', labelsPosition:'ABOVE', background:'0xFFA4B0B7') {
               fields {
-                propertyView name:'captchaImageUrl', labelFont:';BOLD;', horizontalAlignment:'CENTER', action:'helpFrontAction'
+                propertyView name:'captchaImageUrl', labelFont:';BOLD;', horizontalAlignment:'CENTER'
               }
             }
           }
@@ -49,7 +49,7 @@ border ('loginViewDescriptor', model:'CaptchaUsernamePasswordHandler',
         }
       }
     }
-  } 
+  }
 }
 
 propertyView ('language', model:'languagePropertyDescriptor')
@@ -181,7 +181,7 @@ table('Employee.test.view') {
       action ref:'pinQueryCriteriasFrontAction'
     }
     actionList('SERVICE') {
-      action ref:'navigateToModuleFrontAction'
+      action parent:'openEmployeeFrontAction'
     }
     actionList('EXPORT') {
       action parent:'exportFilterModuleResultToHtmlAction',
@@ -196,9 +196,9 @@ table('Employee.test.view') {
   }
 
   columns {
-    propertyView name:'company', action:'navigateToModuleFrontAction', readOnly:true
-    propertyView name:'company.workforce', action:'navigateToModuleFrontAction', readOnly:true
-    propertyView name:'name', action:'navigateToModuleFrontAction', readOnly:true
+    propertyView name:'company', action:'openEmployeeCompanyFrontAction', readOnly:true
+    propertyView name:'company.workforce', action:'openEmployeeCompanyWorkforceFrontAction', readOnly:true
+    propertyView name:'name', action:'openEmployeeFrontAction', readOnly:true
     propertyView name:'firstName', readOnly:true
     propertyView name:'gender', readOnly:true
     propertyView name:'birthDate', readOnly:true
@@ -208,6 +208,19 @@ table('Employee.test.view') {
     propertyView name:'contact.phone', readOnly:true
   }
 }
+
+action ('openEmployeeFrontAction',
+  parent:'addAsChildModuleFrontAction',
+  custom:[parentWorkspaceName:'employees.workspace', parentModuleName:'employees.module'])
+
+action ('openEmployeeCompanyFrontAction',
+  parent:'addAsChildModuleFrontAction',
+  custom:[parentWorkspaceName:'organization.workspace', parentModuleName:'companies.module', referencePath:'company'])
+
+action ('openEmployeeCompanyWorkforceFrontAction',
+  parent:'addAsChildModuleFrontAction',
+  custom:[parentWorkspaceName:'employees.workspace', parentModuleName:'employees.module',
+      referencePath:'company.employees'])
 
 action ('importEmployeeBoxAction',
   parent:'importBoxAction',
@@ -233,32 +246,10 @@ actionMap ('eventsTableActionMap',
     action ref:'exportTableToHtmlAction'
   } 
 }
-
-
-/**
- * navigate to module
- */
+  
+  
 action ('navigateToModuleFrontAction',
   parent:'navigateToModuleFrontActionBase',
-  custom:[models2Module:['org.jspresso.hrsample.modelEmployee/name':'employees.workspace/employees.module',
-                         'org.jspresso.hrsample.model.Company':'employees.workspace/employees.module']])
+  custom:[models2Module:['City':'workspace.masterdata/masterdata.cities.module']])
+  
 
-/**
- * target factory
- */
-bean ('targetActionsConfigurator',
-  parent:'targetActionsConfiguratorBase',
-  custom:[targets_ref:['navigateToModuleFrontAction']]);
-
-//action ('openEmployeeFrontAction',
-//  parent:'addAsChildModuleFrontAction',
-//  custom:[parentWorkspaceName:'employees.workspace', parentModuleName:'employees.module'])
-
-//action ('openEmployeeCompanyFrontAction',
-//  parent:'addAsChildModuleFrontAction',
-//  custom:[parentWorkspaceName:'organization.workspace', parentModuleName:'companies.module', referencePath:'company'])
-
-//action ('openEmployeeCompanyWorkforceFrontAction',
-//  parent:'addAsChildModuleFrontAction',
-//  custom:[parentWorkspaceName:'employees.workspace', parentModuleName:'employees.module',
-  //      referencePath:'company.employees'])
