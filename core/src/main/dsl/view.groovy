@@ -250,6 +250,6 @@ actionMap ('eventsTableActionMap',
   
 action ('navigateToModuleFrontAction',
   parent:'navigateToModuleFrontActionBase',
-  custom:[models2Module:['City':'workspace.masterdata/masterdata.cities.module']])
+  custom:[models2Module:['City':'masterdata.workspace/masterdata.cities.module']])
   
 

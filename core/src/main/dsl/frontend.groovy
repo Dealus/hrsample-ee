@@ -7,7 +7,7 @@
 // Describe your workspaces and modules here.
 
 bean 'viewFactoryBase', parent:'abstractViewFactory',
-    custom: [defaultActionMapRenderingOptions:'LABEL_ICON']
+    custom: [defaultActionMapRenderingOptions:'LABEL_ICON', propertyViewModifiers_ref:['properyViewActionAddModifierBean']]
     
 workspace('statistics.workspace', icon:'tools.png') {
    
